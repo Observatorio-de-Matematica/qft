@@ -1,0 +1,58 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: input   start ] */
+kill( all );
+assume(  %alpha > 0, c > 0, m > 0, h > 0 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Constants */
+
+/* Defining a to satisfy Schrödinger */
+a : h / ( %alpha * c * m );
+
+/* Hamiltonian energy */
+E :  %alpha^2 * c^2 * m / 2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Wave solution */
+psi: exp( -r/a );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Computating normalization constant */
+N : 1 / sqrt( integrate( r^2 * conjugate( psi ) * psi, r, 0, inf ) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Normalization */
+psi : N * psi;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Checking normalization */
+integrate( r^2 * conjugate( psi ) * psi, r, 0, inf );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Definition of Schrödinger operator */
+H( %psi ) :=  -( (h^2)/(2*m) ) * (1/r) * diff( r * %psi, r, 2 ) - ( h*c*%alpha / r ) * %psi;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Verification that solves the Schrödinger radial equation */
+factor( ratsimp( H(psi) + E * psi ) );
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

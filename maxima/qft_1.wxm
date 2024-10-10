@@ -1,0 +1,114 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: input   start ] */
+/* Free Schrödinger 1D equation --------------------------------------------------------------------------------------------------------------- */
+/* De Broglie waves */
+w : ( %h * k^2 ) /( 2 * m );
+yb : exp( %i * ( k * x - w * t ) );
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><mi>L</mi><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+positive;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Verification of free Schrödinger equation */
+%i * %h * diff( yb, t ) + ( %h^2 / ( 2 * m ) ) * diff( yb, x, 2 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Probability of De Broglie waves 
+Density is by default 1 and by consequence the probability is no bounded is infity */
+p : conjugate( yb ) * yb;
+limit( integrate( p, x, -L, L ), L, inf );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Schrödinger 1D equation on infinite well ---------------------------------------------------------------------------------------------------- */ 
+assume( L > 0 ) ;
+declare( n, integer );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Harmonic of oscillators */ 
+y : sin(n* %pi *x / L );
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><mi>L</mi><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+positive;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Normalization constant */
+A:1/sqrt( integrate( y^2, x, 0, L ) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Harmonic oscillator solutions */
+y : A * y;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Verification of normalization */ 
+integrate(  y^2, x, 0, L ) ;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Average position */ 
+ratsimp( integrate( x * y^2, x, 0, L ) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Average momentum */ 
+ratsimp( integrate( y * ( %h / %i ) * diff( y, x ), x, 0, L ) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+E : (%pi^2*%h^2*n^2)/(2*L^2*m);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Average energy */ 
+ratsimp( integrate( -y * ( %h^2 / (2*m) ) * diff( y, x, 2 ), x, 0, L ) );
+
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Time dependent solution of Schrödinger equation */
+u : y * exp( -%i * E * t / %h );
+
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Verify Schrödinger equation */ 
+%i * %h * diff( u, t ) + ( %h^2 / ( 2 * m ) ) * diff( u, x, 2 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Obtaining LaTeX output */ 
+texput( %h, "\\hbar" );
+tex( u );
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

@@ -1,0 +1,22 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: input   start ] */
+kill( all );
+load( "qft_lib_1.wxm" );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Verification of Clifford algebra relations */
+g0 . g1 + g1 . g0;
+g0 . g2 + g2 . g0;
+g0 . g3 + g3 . g0;
+g1 . g2 + g2 . g1;
+g1 . g3 + g3 . g1;
+g2 . g3 + g3 . g2;
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

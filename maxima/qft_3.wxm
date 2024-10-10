@@ -1,0 +1,108 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: input   start ] */
+/* Solution of Dirac's 3D equation  */;
+kill( all );
+load( "qft_lib_1.wxm" );
+assume( m >0, c > 0, p[1]^2 + p[2]^2 + p[3]^2 > 0 );
+
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Dirac's operator */
+D(u) := %i* %h * ( g0 . ( ( 1/c ) * diff( u, t ) ) + g1 . diff( u, x )  + g2 . diff( u, y ) + g3 . diff( u, z ) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Base spinors */
+phi : transpose( [1,0] );
+chi : transpose( [0,1] );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Energy */
+E:  sqrt( m^2 * c^4 +  c^2* p[1]^2 +  c^2* p[2]^2 +  c^2* p[3]^2 );
+v:  s1 * p[1] + s2 * p[2] + s3 * p[3];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Bispinors */
+/* Particles */
+w1 : append( phi, (c *v / (E + m * c^2 ) ) . phi );
+w2 : append( chi, (c *v / (E + m * c^2 ) ) . chi );
+
+/* Antiparticles */
+w3 : append( -(c *v / (-E + m * c^2 ) ) . phi, phi );
+w4 : append( -(c *v / (-E + m * c^2 ) ) . chi, chi );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Normalization of bispinors */
+N1 : sqrt( ( E + m*c^2 ) / (2*E) ) ;
+N2 : sqrt( ( E - m*c^2 ) / (2*E) ) ;
+w1 : N1 * w1;
+w2 : N1 * w2;
+w3 : N2 * w3;
+w4 : N2 * w4;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Plane wave solutions */
+y1 : w1 * exp( -%i * ( E* t - p[1] * x - p[2] * y - p[3]* z ) / %h );
+y2 : w2 * exp( -%i * ( E* t - p[1] * x - p[2] * y - p[3]* z ) / %h );
+y3 : w3 * exp( -%i * ( E* t - p[1] * x - p[2] * y - p[3]* z ) / %h );
+y4 : w4 * exp( -%i * ( E* t - p[1] * x - p[2] * y - p[3]* z ) / %h );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Verification that plane waves are effectively solutions of Dirac's equation*/
+factor( D(y1) - m* c* y1 ) ;
+factor( D(y2) - m* c* y2 ) ;
+factor( D(y3) - m* c* y3 ) ;
+factor( D(y4) - m* c* y4 ) ;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Bispinors are normalized */
+ratsimp( conjugate(w1).w1 );
+ratsimp( conjugate(w2).w2 );
+ratsimp( conjugate(w3).w3 );
+ratsimp( conjugate(w4).w4 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Plane wave solutions of Dirac's equation are not bounded */
+ratsimp( conjugate(y1).y1 );
+ratsimp( conjugate(y2).y2 );
+ratsimp( conjugate(y3).y3 );
+ratsimp( conjugate(y4).y4 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Algebraic equation associated to plane wave solutions */
+A : ratsimp( %i* %h * ( g0  * ( ( 1/c ) * ( -%i * E / %h ) ) + g1 * ( %i * p[1] / %h )  + g2 * ( %i * p[2] / %h ) + g3 * ( %i * p[3] / %h ) ) ) - m * c * diagmatrix( 4, 1 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Checking that bispinors are effectively algebraic solutions */
+ratsimp( A . w1 );
+ratsimp( A . w2 );
+ratsimp( A . w3 );
+ratsimp( A . w4 );
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

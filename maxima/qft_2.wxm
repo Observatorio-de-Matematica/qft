@@ -1,0 +1,49 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: input   start ] */
+/* Solutions to Klein-Gordon 1D equation */
+assume( c > 0, L > 0 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+w : sqrt( c^2 * k ^2 + m^2 * c^4 / %h^2 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Plane wave solution */
+y : exp( %i * ( k * x - w * t ) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Operator definition */
+D(y) := 1/c^2 * diff( y, t, 2 ) - diff( y, x, 2 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Verification of KG equations */
+ratsimp( D(y) + m^2 * c^2 / %h^2 * y );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* The plane wave solution, it is also not bounded */
+p : conjugate( y ) * y;
+integrate( p, x, -L, L );
+limit( integrate( p, x, -L, L ), L, inf );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Conjugate also verifies the KG equation */
+yc : conjugate( y );
+ratsimp( D(yc) + m^2 * c^2 / %h^2 * yc );
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

@@ -1,0 +1,136 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: input   start ] */
+/* Fourier transform, Green functions, Propagators */
+kill( all );
+assume( m > 0, L > 0, %sigma > 0 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* First some computation with Fourier transform */
+ps : ( 1 / ( ( %sigma^(1/2) ) * ( ( 2 * %pi )^(1/4) ) ) ) * exp( -x^2 / ( 4 * %sigma^2 ) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Checking normalization */
+integrate( conjugate( ps ) * ps, x, minf, inf );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Fourier transform of normal wave, momentum wave */
+ph : ( 1 / sqrt( 2 * %pi ) ) * integrate( exp(%i*p*x ) * ps, x, minf, inf  );
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><mi>x</mi><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+ zero;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><fn><fnm>cos</fnm><mrow><p><mfrac><mrow><fn><fnm>atan</fnm><mrow><p><mn>4</mn><h>*</h><msup><mrow><g>%sigma</g></mrow><mn>2</mn></msup><h>*</h><mi>p</mi></p></mrow></fn></mrow><mrow><mn>2</mn></mrow></mfrac></p></mrow></fn><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+negative;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><mrow><a><fn><fnm>sin</fnm><mrow><p><mfrac><mrow><fn><fnm>atan</fnm><mrow><p><mn>4</mn><h>*</h><msup><mrow><g>%sigma</g></mrow><mn>2</mn></msup><h>*</h><mi>p</mi></p></mrow></fn></mrow><mrow><mn>2</mn></mrow></mfrac></p></mrow></fn></a></mrow><mi>+</mi><fn><fnm>cos</fnm><mrow><p><mfrac><mrow><fn><fnm>atan</fnm><mrow><p><mn>4</mn><h>*</h><msup><mrow><g>%sigma</g></mrow><mn>2</mn></msup><h>*</h><mi>p</mi></p></mrow></fn></mrow><mrow><mn>2</mn></mrow></mfrac></p></mrow></fn><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+zero;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Checking normalization */
+integrate( conjugate( ph ) * ph, p, minf, inf );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Checking Inverse Fourier transform */
+phi : ( 1 / sqrt( 2 * %pi ) )  * integrate( exp( -%i*p*x) * ph, p, minf, inf  );
+is( phi = ps );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Moments for position and momenta */
+integrate( x * conjugate( ps ) * ps, x, minf, inf );
+integrate( x^2 * conjugate( ps ) * ps, x, minf, inf );
+integrate( p * conjugate( ph ) * ph, p, minf, inf );
+integrate( p^2 * conjugate( ph ) * ph, p, minf, inf );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill( all );
+assume( m > 0, %epsilon > 0, L > 0 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+H :  %i / ( p^2 - m^2 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+G :gfactor( ratsimp( radcan(  integrate( exp( -%i*p*( x ) ) * ( %i / ( p^2 - m^2 + %epsilon ) ), p, minf, inf  ) ) ) );
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><msup><mrow><mi>m</mi></mrow><mn>2</mn></msup><mi>-</mi><g>%epsilon</g><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+positive;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><mi>x</mi><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+negative;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><mi>m</mi><mi>-</mi><mi>L</mi><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+negative;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><mi>y</mi><mi>-</mi><mi>x</mi><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+positive;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Is </st><mi>L</mi><st> positive, negative or zero?</st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+;positive;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+U :  gfactor( radcan( diff( G, x, 2 )  + m^2 * G ) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+limit( U, %epsilon, 0 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+limit( conjugate( G ) * G, %epsilon, 0 );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

@@ -1,0 +1,12 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: input   start ] */
+/* Momentum-space propagator used in Feynman diagrams for a Dirac field representing the electron in quantum electrodynamics */
+F : p[0]^2 - p[1]^2 - p[2]^2  - p[3]^2 - m^2;
+S(p) = ( g0 * p[0] + g1 * p[1] + g2 * p[2] + g3 * p[3] + m * diagmatrix( 4, 1 ) ) / ( F + %i * %epsilon );
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$
